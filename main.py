@@ -3,8 +3,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import division
 from RPiHTTPServer import RPiHTTPServer, RPiHTTPRequestHandler
-import Adafruit_PCA9685.PCA9685 as pca9685
-# from pca9685 import pca9685
+#import Adafruit_PCA9685.PCA9685 as pca9685
+from pca9685 import pca9685
 import pystache
 import os
 import json

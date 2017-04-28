@@ -6,6 +6,8 @@ Raspberry web interface to I2C controlled PWM board PCA9685.
 - http://www.joy-it.net/motopi/
 - http://www.nxp.com/products/interfaces/ic-bus-portfolio/ic-led-display-control/16-channel-12-bit-pwm-fm-plus-ic-bus-led-controller:PCA9685PW
 
+![screenshot](https://rawgit.com/mauntrelio/web_PCA9685/master/screenshot.png)
+
 # TODO
 
 - packaging + dependencies
