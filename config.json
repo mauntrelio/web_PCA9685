@@ -1,0 +1,16 @@
+{
+  "SERVER_ADDRESS": "0.0.0.0",
+  "SERVER_PORT": 5000,
+  "SERVER_MULTITHREADED": true,
+  "STATIC_URL_PREFIX": "/static",
+  "STATIC_CACHE" : 604800,
+  "ROUTE": {
+    "GET": {
+      "/": "default_response"
+    },
+    "POST": {
+      "/set": "set_param"
+    }
+  },
+  "I2C_ADDR": "0x40"
+}

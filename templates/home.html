@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>PCA9685 RPi web interface</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="static/css/style.css">
+
+  </head>
+  <body>
+    <div class="container">
+    <div class="row">
+
+    <h1>PCA9685 RPi web interface</h1>
+
+    <form class="form-inline">
+
+      <div class="form-group">
+        <label for="freq">Frequency</label>
+        <input type="range" id="freq" name="freq" value="{{freq}}"
+          data-orig-value="{{freq}}" min="25" max="250" step="5" class="form-control">
+        <div class="range-value"><span>50</span>Hz</div>
+        <input type="button" class="btn btn-primary btn-sm" value="Set" id="set_freq">
+      </div>
+
+      <br><br>
+
+      <table class="table table-striped table-condensed col-md-10">
+        <tr>
+          <th>Channel</th>
+          <th>Start</th>
+          <th>End</th>
+          <th>Pulse</th>
+          <th></th>
+        </tr>
+
+        {{#channels}}
+          <tr id="pwm_{{index}}">
+            <td class="col-md-1">PWM #{{index}}</td>
+            <td class="col-md-3">
+              <input id="channel_{{index}}_start" class="pwm start form-control"
+              data-index="{{index}}" name="channel_{{index}}_start"
+              type="range" min="0" max="4096" value="{{start}}" data-orig-value="{{start}}"/>
+              <div class="range-value"><span>{{start}}</span></div>
+            </td>
+            <td class="col-md-3">
+              <input id="channel_{{index}}_end" class="pwm end form-control"
+              data-index="{{index}}" name="channel_{{index}}_end"
+              type="range" min="0" max="4096" value="{{end}}" data-orig-value="{{end}}"/>
+              <div class="range-value"><span>{{end}}</span></div>
+            </td>
+            <td class="col-md-2" id="pulse_{{index}}">{{pulse}} ms</td>
+            <td class="col-md-1"><input type="button" value="Set"
+              data-index="{{index}}" class="btn btn-primary btn-sm set_pwm">
+              <input type="button" value="Undo"
+                data-index="{{index}}" class="btn btn-default btn-sm undo_pwm">
+            </td>
+          </tr>
+        {{/channels}}
+
+      </table>
+
+      <input type="button" value="Set all!" class="btn btn-primary btn-sm" id="set_all">
+      <input type="button" value="Reset PWM!" class="btn btn-danger btn-sm" id="reset_all">
+
+      <br><br>
+
+    </form>
+
+  </div>
+  </div>
+
+  <script src="static/js/jquery-3.2.1.min.js"></script>
+  <script src="static/js/bootstrap.min.js"></script>
+  <script src="static/js/pca9685.js"></script>
+  <script src="static/js/app.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,21 @@
+
+/*@import url('range.css');*/
+@import url('fonts.css');
+@import url('flash.css');
+@import url('bootstrap.min.css');
+@import url('bootstrap-theme.min.css');
+
+* {
+  font-family: 'Lato', sans-serif;
+}
+
+div.range-value {
+  font-size: 12px;
+  text-align: right;
+  display: inline-block;
+  width: 35px;
+}
+
+#freq {
+  margin: 0 10px;
+}
