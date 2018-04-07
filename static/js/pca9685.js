@@ -13,6 +13,15 @@ var PCA9685 = (function($,window,document,undefined) {
     $("#pulse_" + index).html(pulse_length + " ms");
   };
 
+  var set_label = function(range) {
+    var value = range.val();
+    var index = range.data("index");
+    var freq = parseInt($("#freq").val());
+    var pulse_length = App.round(value / (4096 * freq ) * 1000, 3);
+    $("#pulse_" + index).html(value + " / " + pulse_length + " ms");
+  };
+
+
   var bind_ranges = function() {
     $("input[type=range].pwm").on("input",function(){
       var $this = $(this);
@@ -38,6 +47,23 @@ var PCA9685 = (function($,window,document,undefined) {
       update_pulse(index, value, other_value);
     });
 
+    
+    $("input[type=range].pwmfast").on("input",function(){
+      var $this = $(this);
+      var value = parseInt($this.val());
+      var index = $this.data("index");
+      set_label($this);
+      $("#pwm_" + index).addClass("danger");
+      var post_data = {};
+      post_data[$this.attr("name")] = value;
+      $.post("/set", post_data,
+        function(data){
+          $this.data("orig-value", value).attr("data-orig-value", value);
+          $("#pwm_" + index).removeClass("danger").flash();
+      });
+    });
+
+
     $("#freq").on("input",function(){
       var $this = $(this);
       var value = parseInt($this.val());
@@ -60,6 +86,10 @@ var PCA9685 = (function($,window,document,undefined) {
         var end_value = parseInt($("#channel_"+index+"_end").val());
         update_pulse(index, start_value, end_value);
       });
+
+      $("input[type=range].pwmfast").each(function(){
+        set_label($(this));
+      });      
     });
   }
 

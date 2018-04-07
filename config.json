@@ -4,6 +4,7 @@
   "SERVER_MULTITHREADED": true,
   "STATIC_URL_PREFIX": "/static",
   "STATIC_CACHE" : 604800,
+  "START_FREQ": 60,
   "ROUTE": {
     "GET": {
       "/": "default_response"
@@ -12,5 +13,5 @@
       "/set": "set_param"
     }
   },
-  "I2C_ADDR": "0x40"
+  "I2C_ADDR": "0x41"
 }

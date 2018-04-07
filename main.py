@@ -1,10 +1,10 @@
-#!/usr/bin/python
+  #!/usr/bin/python
 
 # -*- coding: utf-8 -*-
 from __future__ import division
 from RPiHTTPServer import RPiHTTPServer, RPiHTTPRequestHandler
-#import Adafruit_PCA9685.PCA9685 as pca9685
-from pca9685 import pca9685
+import Adafruit_PCA9685.PCA9685 as pca9685
+#from pca9685 import pca9685
 import pystache
 import os
 import json
@@ -13,7 +13,7 @@ class WebHandler(RPiHTTPRequestHandler):
 
   # TODO: status should be set directly from interface to i2C
   status = {
-    "freq": 50,
+    "freq": 0,
     "channels": [
       {"index":  0, "start": 0, "end": 0, "pulse": 0},
       {"index":  1, "start": 0, "end": 0, "pulse": 0},
@@ -35,6 +35,9 @@ class WebHandler(RPiHTTPRequestHandler):
   }
 
   def compute_pulses(self):
+    if self.status["freq"] == 0:
+      self.status["freq"] = self.server.config["START_FREQ"]
+
     for i in xrange(16):
       ch_start = self.status["channels"][i]["start"]
       ch_end = self.status["channels"][i]["end"]
@@ -45,6 +48,11 @@ class WebHandler(RPiHTTPRequestHandler):
   def default_response(self):
     self.compute_pulses()
     self.render_template()
+
+  # GET /simple
+  def routed_advanced(self):
+    self.compute_pulses()
+    self.render_template(template = "advanced.html")
 
   # POST /set
   def set_param(self):
@@ -58,6 +66,10 @@ class WebHandler(RPiHTTPRequestHandler):
       if 10 <= freq <= 250:
         self.status["freq"] = freq
         self.server.pwm.set_pwm_freq(freq)
+    elif self.status["freq"] == 0:
+      freq = self.server.config["START_FREQ"]
+      self.status["freq"] = freq
+      self.server.pwm.set_pwm_freq(freq)
 
     # set start and end for pwm channels
     for i in xrange(16):
@@ -88,7 +100,7 @@ class WebHandler(RPiHTTPRequestHandler):
       self.content_type = "application/json"
       self.content = json.dumps(tpl_vars)
     else:
-      tpl = os.path.join(self.config.TEMPLATE_FOLDER, template)
+      tpl = os.path.join(self.config["TEMPLATE_FOLDER"], template)
       if os.path.isfile(tpl):
         tpl_content = open(tpl,"r").read()
         self.content = pystache.render(tpl_content, tpl_vars)
@@ -109,14 +121,14 @@ def main():
   config = WebServer.server.config
 
   # instantiate and initialise pwm controller
-  pwm = pca9685(address=int(config.I2C_ADDR,16))
+  pwm = pca9685(address=int(config["I2C_ADDR"],16))
 
   # assign variables to server
   WebServer.server.pwm = pwm
   WebServer.server.root_folder = basedir
 
   try:
-    print "Server listening on http://%s:%s" % (config.SERVER_ADDRESS,config.SERVER_PORT)
+    print "Server listening on http://%s:%s" % (config["SERVER_ADDRESS"],config["SERVER_PORT"])
     WebServer.serve_forever()
   except KeyboardInterrupt:
     pass

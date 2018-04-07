@@ -16,6 +16,10 @@ div.range-value {
   width: 35px;
 }
 
+td.nowrap {
+	white-space: nowrap;
+}
+
 #freq {
   margin: 0 10px;
 }
