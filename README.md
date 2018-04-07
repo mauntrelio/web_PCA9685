@@ -10,7 +10,7 @@ You can find such board here:
 
 Youtube video:
 
-[![Web PCA9685 working](https://img.youtube.com/vi/6MUcEnYYeFg/0.jpg)](https://www.youtube.com/watch?v=6MUcEnYYeFg)]
+[![Web PCA9685 working](https://img.youtube.com/vi/6MUcEnYYeFg/0.jpg)](https://www.youtube.com/watch?v=6MUcEnYYeFg)
 
 ![screenshot](https://rawgit.com/mauntrelio/web_PCA9685/master/screenshot.png)
 
